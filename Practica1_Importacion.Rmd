@@ -26,6 +26,7 @@ knit_hooks$set(inline=function(x) {
     paste(as.character(x), collapse=', ')
   }
 })
+rm(list=ls())
 ```
 
 
@@ -69,7 +70,15 @@ Usa siempre rutas referidas a la carpeta, en la que se encuentra el fichero fuen
 
 ```{r}
 fname <- 'data/DFP1_11122015 124700.csv'
+datos <- read.csv(fname,stringsAsFactors=F, sep = "\t")
+library(hms)
+str(datos)
+datos$FECHA <- as.POSIXlt(datos$FECHA, format="%d/%m/%Y")
+datos$HORA <- as_hms(datos$HORA)
+str(datos) # vemos que FECHA y HORA tienen los formatos deseados
+save(datos, file="data/datos_ejemplo.RData")
 ```
+
 
 ## Inspección de los datos
 
