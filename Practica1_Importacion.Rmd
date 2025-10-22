@@ -244,7 +244,32 @@ df <- read_excel(fname, sheet=2) # El formato de las fechas no es correcto
 #                   potasio, cloro, HB GLIC, GLUCOSA, PCR
 # Es más fácil ver cuales NO son 'numeric'.
 # Definir los tipos de datos en 'ct' y releer con 'read_excel'.
-# df <- read_excel(fname, sheet=2, col_types=ct)
+
+# copiamos la primera fila para sacar los nombres de las columnas
+primera_fila <- "IDENTIFICA	RAZA	FECHA NAC	SEXO	FECHA ENTRADA	FECHA SALIDA	RESULTADO	ENF BASE	COMOR	FECHA CONTROL	EPO	DOSIS EPO	EQUIVALENCIA epo MES	HTA	tto hta	HVI	ICC	VHC	TABACO	DISLIPEMIA	COL TOT	COL HDL	COL LDL	TG	DM	VIT D	HIDROF	ANTIAG	ANTICOAG	HIERRO	BICAR	DIURET	IECAS	PESO	TALLA	IMC	HB	IST 	FERRITINA	UREA	CREAT 	FOSFORO	CALCIO	CICALCET	QUELANTES	D3	PTH 	BICARBO	ALOPURIN	URICO	PROTEINU 0	ALBUMI 0	sodio	potasio	CLORO	HB GLIC	GLUCOSA	PCR"
+primera_fila <- strsplit(primera_fila,split = "\t")
+primera_fila <- primera_fila[[1]] # nos quedamos con la lista de nombres
+
+col_numeric <- "COL*, TG, HIDROF, ANTI*, DIURET, IECAS, PESO, TALLA?, HB, IST, FERRITINA, UREA, FOSFORO, CALCIO, CICALCET, QUELANTES, PTH, BICARBO, ALOPURIN, URICO, PROTEINU*, ALBUMI*, sodio, potasio, cloro, HB GLIC, GLUCOSA, PCR"
+col_numeric <- gsub("[[:punct:]]","",col_numeric)
+col_numeric <- strsplit(col_numeric,split = " ")[[1]]
+
+clasifica <- function(nombre){
+  if(nombre %in% col_numeric){
+    return("numeric")
+  }else if(nombre == "FECHA"){
+    return("date")
+  }else{
+    return("text")
+  }
+}
+
+ct <- sapply(primera_fila,clasifica)
+
+df <- read_excel(fname, sheet=2, col_types=ct)
+
+# guardamos datos en formato RData
+save(df,file = "data/ERCA.RData")
 ```
 
 ```{r}
