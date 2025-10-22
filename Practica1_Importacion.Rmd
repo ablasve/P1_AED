@@ -153,6 +153,11 @@ Inspecciona los datos con `str`, `head`, `tail` y `summary`.
 
 ```{r}
 # dim, str, etc.
+dim(psych.bike)
+str(psych.bike)
+head(psych.bike)
+tail(psych.bike)
+summary(psych.bike)
 ```
 
 
