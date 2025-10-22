@@ -106,8 +106,13 @@ Otra opción es usar la librería `readr` para especificar directamente el tipo 
   3. Guarda el data frame con `save`.
 
 ```{r}
+rm(list=ls())
 library(readr)
 filename <- "data/BreadBasket_DMS.csv"
+library(readr)
+BreadBasket_DMS <- read_csv(filename)
+#View(BreadBasket_DMS)
+save(BreadBasket_DMS,file="data/BreadBasket_DMS.RData")
 ```
 
 ## Inspección de los datos
