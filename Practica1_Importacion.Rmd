@@ -183,13 +183,14 @@ En R podemos importar ficheros JSON con la librería `jsonlite`. Las funciones m
   4. Almacenar los resultados en `FileCodificado.RData`.
 
 ```{r}
+rm(list = ls())
 library(jsonlite)
 filename <- 'data/FileCodificado.json'
 file_json <- read_json(filename,simplifyVector = F)
-class(file_json) # si no simplificamos, la información acaba siendo una lista de listas
+class(file_json) # si no simplificamos, la información acaba siendo una lista de listas (engorroso)
 file_json_simplified <- read_json(filename, simplifyVector = T) # si simplificamos es un dataframe 
 class(file_json_simplified)
-
+save(file_json_simplified,file="data/FileCodificado.RData")
 ```
 
 ## Inspección de los datos
@@ -198,6 +199,10 @@ Inspecciona los datos con `str`, `head`, `tail` y `summary`.
 
 ```{r}
 # str, head, tail, summary
+str(file_json_simplified)
+head(file_json_simplified)
+tail(file_json_simplified)
+summary(file_json_simplified)
 ```
 
 ## Extra: exportar datos en formato JSON
@@ -208,7 +213,9 @@ Es importante saber cómo exportar datos en este formato.
   2. Como alternativa, obtener la representación JSON de los datos con `toJSON` y luego almacenarlos con `write_file`. Observar la diferencia de usar o no el parámetro `pretty` en `toJSON`.
 
 ```{r}
-# ...
+write_json(iris, "data/iris.json")
+iris_json <- read_json("data/iris.json",simplifyVector = T)
+all(iris == iris_json) # son iguales
 ```
 
 
