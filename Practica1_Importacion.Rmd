@@ -86,6 +86,10 @@ Inspecciona los datos con `str`, `head`, `tail` y `summary`.
 
 ```{r}
 # str, head, tail, summary
+str(datos)
+head(datos)
+tail(datos)
+summary(datos)
 ```
 
 
